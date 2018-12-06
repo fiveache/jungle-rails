@@ -1,0 +1,15 @@
+Thank you for your order,
+=============================================
+This is your order:
+<% @order.line_items.each do |item| %>
+
+  <%= item.product.name %>
+  <%= item.product.description %>
+  <%= item.product.price %>
+  <%= item.quantity %>
+  <%= item.product.price * quantity %>
+
+<% end %>
+
+TOTAL:
+<%= @order.total_cents / 100.0 %>

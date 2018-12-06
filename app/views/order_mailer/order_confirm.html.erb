@@ -1,0 +1,10 @@
+<h1>Thank you for your order.</h1>
+<p>
+  This is your order:
+</p>
+<% @order.line_items.each do |item| %>
+  <%= render 'item', item: item, product: item.product, quantity: item.quantity.to_i %>
+<% end %>
+<br>
+<p>ORDER TOTAL:</p>
+$<%= @order.total_cents / 100.0 %>
