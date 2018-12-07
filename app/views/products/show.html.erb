@@ -1,4 +1,4 @@
-<section class="products-show">
+<<section class="products-show">
 
   <header class="page-header">
     <h1><%= link_to @product.category.name, @product.category %> &raquo; <%= @product.name %></h1>
@@ -22,6 +22,22 @@
           <dd><%= @product.quantity %></dd>
           <dt>Price</dt>
           <dd><%= @product.price %></dd>
+          <% unless @product.reviews.length.zero? %>
+            <h3>Ratings</h3>
+              <div class="row">
+                  <% @product.reviews.each do |r| %>
+                <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">Rating: <%= r.rating%></h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Reviewed by <%= r.methods.sort %></h6>
+                    <p class="card-text"><%= r.description %></p>
+                    <h6 class="card-subtitle mb-2 text-muted">Created <%= r.created_at.strftime("%B %e %Y") %></h6>
+                  </div>
+                </div>
+                  <% end %>
+                </div>
+
+          <% end %>
         </dl>
       </div>
     </div>
