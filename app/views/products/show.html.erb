@@ -22,6 +22,19 @@
           <dd><%= @product.quantity %></dd>
           <dt>Price</dt>
           <dd><%= @product.price %></dd>
+
+          <%= form_for([@product, @review]) do |f| %>
+            <div class="form-inputs">
+              <%= f.text_area  :description %>
+              <%= f.select :rating, options_for_select(["1", "2", "3", "4", "5"]) %>
+
+            </div>
+            <div class="form-actions">
+              <%= f.button :submit %>
+            </div>
+          <% end %>
+
+
           <% unless @product.reviews.length.zero? %>
             <h3>Ratings</h3>
               <div class="row">
@@ -29,15 +42,17 @@
                 <div class="card" style="width: 18rem;">
                   <div class="card-body">
                     <h5 class="card-title">Rating: <%= r.rating%></h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Reviewed by <%= r.methods.sort %></h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Reviewed by <%= r.user.name %></h6>
                     <p class="card-text"><%= r.description %></p>
                     <h6 class="card-subtitle mb-2 text-muted">Created <%= r.created_at.strftime("%B %e %Y") %></h6>
                   </div>
                 </div>
                   <% end %>
                 </div>
-
           <% end %>
+
+
+
         </dl>
       </div>
     </div>
