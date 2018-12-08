@@ -2,10 +2,14 @@
   <h1>Login</h1>
 
   <%= form_tag '/login' do %>
-
-    Email: <%= text_field_tag :email %>
-    Password: <%= password_field_tag :password %>
-    <%= submit_tag "Submit" %>
-
-  <% end %>
+  <div class="col-sm-6 col-sm-offset-1">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <%= text_field_tag :email, "" ,class: "form-control", name: "email" %>
+      <label for="password">Password:</label>
+      <%= password_field_tag :password, "" ,class: "form-control", name: "password" %>
+    </div>
+    <%= submit_tag "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
 </section>
