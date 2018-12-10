@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Product, type: :model do
   before :each do
-
     @category = Category.find_or_create_by! name: 'Apparel'
 
     @product = Product.new(

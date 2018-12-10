@@ -41,19 +41,22 @@ User.destroy_all
 user1 = User.create!({
   name: 'Joel',
   email: 'joel@joel.com',
-  password: '123'
+  password: '123456789',
+  password_confirmation: '123456789',
 })
 
 user2 = User.create!({
   name: 'Daniel',
   email: 'daniel@daniel.com',
-  password: '123'
+  password: '123456789',
+  password_confirmation: '123456789',
 })
 
 user3 = User.create!({
   name: 'Rachel',
   email: 'rachel@rachel.com',
-  password: '123'
+  password: '123456789',
+  password_confirmation: '123456789',
 })
 
 
