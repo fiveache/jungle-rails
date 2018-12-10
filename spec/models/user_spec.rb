@@ -107,4 +107,66 @@ RSpec.describe User, type: :model do
       expect(@user6).to be_valid
     end
   end
+
+  describe '.authenticate_with_credentials' do
+    it 'Should return instance of user when credentials are correct' do
+      @authenticatedUser = User.create(
+        email: 'tester@test.com',
+        name: 'Testere',
+        password: '1235678910',
+        password_confirmation: '1235678910'
+      )
+      expect(User.authenticate_with_credentials('tester@test.com', '1235678910')).to eq @authenticatedUser
+    end
+
+    it 'Should return nill when credentials are not correct' do
+      @authenticatedUser2 = User.create(
+        email: 'tester2@test.com',
+        name: 'Testere',
+        password: '123567891011',
+        password_confirmation: '123567891011'
+      )
+      expect(User.authenticate_with_credentials('tester2@test.com', '1235678910')).to be_nil
+    end
+
+    it 'Should return instance of user when credentials are correct and a visitor types in a few spaces before their email address' do
+      @authenticatedUser3 = User.create(
+        email: 'tester@test.com',
+        name: 'Testere',
+        password: '1235678910',
+        password_confirmation: '1235678910'
+      )
+      expect(User.authenticate_with_credentials('  tester@test.com', '1235678910')).to eq @authenticatedUser3
+    end
+
+    it 'Should return instance of user when credentials are correct and a visitor types in a few spaces after their email address' do
+      @authenticatedUser4 = User.create(
+        email: 'tester@test.com',
+        name: 'Testere',
+        password: '1235678910',
+        password_confirmation: '1235678910'
+      )
+      expect(User.authenticate_with_credentials('tester@test.com  ', '1235678910')).to eq @authenticatedUser4
+    end
+
+    it 'Should return instance of user when credentials are correct and a visitor types in a few spaces before and after their email address' do
+      @authenticatedUser5 = User.create(
+        email: 'tester@test.com',
+        name: 'Testere',
+        password: '1235678910',
+        password_confirmation: '1235678910'
+      )
+      expect(User.authenticate_with_credentials('  tester@test.com  ', '1235678910')).to eq @authenticatedUser5
+    end
+
+    it 'Should return instance of user a visitor types in the wrong case for their email' do
+      @authenticatedUser6 = User.create(
+        email: 'eXample@domain.COM',
+        name: 'Testere',
+        password: '1235678910',
+        password_confirmation: '1235678910'
+      )
+      expect(User.authenticate_with_credentials('EXAMPLe@DOMAIN.CoM', '1235678910')).to eq @authenticatedUser6
+    end
+  end
 end
