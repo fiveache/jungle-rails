@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
-  before_save { self.email = email.downcase }
+  before_save { self.email = email.downcase.strip }
 
   def self.authenticate_with_credentials(email, password)
-    user = User.find_by_email(email.delete(' ').downcase)
+    user = User.find_by_email(email.strip.downcase)
     user && user.authenticate(password) ? user : nil
   end
 
