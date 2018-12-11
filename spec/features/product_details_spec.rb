@@ -21,7 +21,7 @@ RSpec.feature "ProductDetails", type: :feature, js: true do
     within first('article.product') do
       first('h4').click
     end
-    sleep 2
+    expect(page).to have_css '.product-detail'
     save_screenshot 'description.png'
   end
 
