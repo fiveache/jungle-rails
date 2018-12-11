@@ -6,16 +6,15 @@ class OrdersController < ApplicationController
 
   def create
     charge = perform_stripe_charge
-    order  = create_order(charge)
-    OrderMailer.order_confirm(order).deliver_now
+    @order  = create_order(charge)
+    OrderMailer.order_confirm(@order).deliver_now
 
-    if order.valid?
+    if @order.valid?
       empty_cart!
-      redirect_to order, notice: 'Your Order has been placed.'
+      redirect_to @order, notice: 'Your Order has been placed.'
     else
-      redirect_to cart_path, flash: { error: order.errors.full_messages.first }
+      redirect_to cart_path, flash: { error: @order.errors.full_messages.first }
     end
-
   rescue Stripe::CardError => e
     redirect_to cart_path, flash: { error: e.message }
   end
@@ -29,15 +28,15 @@ class OrdersController < ApplicationController
 
   def perform_stripe_charge
     Stripe::Charge.create(
-      source:      params[:stripeToken],
-      amount:      cart_subtotal_cents,
+      source: params[:stripeToken],
+      amount: cart_subtotal_cents,
       description: "Khurram Virani's Jungle Order",
-      currency:    'cad'
+      currency: 'cad'
     )
   end
 
   def create_order(stripe_charge)
-    order = Order.new(
+    @order = Order.new(
       email: params[:stripeEmail],
       total_cents: cart_subtotal_cents,
       stripe_charge_id: stripe_charge.id, # returned by stripe
@@ -46,15 +45,18 @@ class OrdersController < ApplicationController
     enhanced_cart.each do |entry|
       product = entry[:product]
       quantity = entry[:quantity]
-      order.line_items.new(
+      @order.line_items.new(
         product: product,
         quantity: quantity,
         item_price: product.price,
         total_price: product.price * quantity
       )
+      # My code. how do I wrap this in an after_create?
+      product.quantity -= quantity
+      product.save!
     end
-    order.save!
-    order
+    binding.pry
+    @order.save!
+    @order
   end
-
 end

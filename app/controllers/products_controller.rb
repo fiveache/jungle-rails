@@ -1,5 +1,4 @@
 class ProductsController < ApplicationController
-
   def index
     @products = Product.all.order(created_at: :desc)
   end
@@ -9,7 +8,4 @@ class ProductsController < ApplicationController
     @review = Review.create
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
-
-
-
 end
